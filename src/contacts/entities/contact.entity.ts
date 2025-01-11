@@ -1,10 +1,10 @@
 import { User } from "src/users/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-
+import { Debt } from "src/debts/entities/debt.entity";
 @Entity()
 export class Contact {
     @PrimaryGeneratedColumn('uuid')
-    idContact: string;
+    contactId: string;
 
     @Column('text')
     name: string;
@@ -29,5 +29,11 @@ export class Contact {
         (user) => user.contacts
     )
     user: User;
+
+    @ManyToOne(
+        () => Debt,
+        (debt) => debt.contact
+    )
+    debts: Debt[];
 
 }

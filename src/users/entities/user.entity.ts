@@ -3,7 +3,7 @@ import { Contact } from "src/contacts/entities/contact.entity";
 import { Expense } from "src/expenses/entities/expense.entity";
 import { Income } from "src/income/entities/income.entity";
 import { BeforeInsert, BeforeRecover, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-
+import { Debt } from "src/debts/entities/debt.entity";
 @Entity()
 export class User {
 
@@ -79,4 +79,11 @@ export class User {
     async recoverPassword() {
         delete this.password;
     }
+
+    @OneToMany(
+        () => Debt,
+        (debt) => debt.user,
+        { cascade: true }
+    )
+    debts ?: Debt[];
 }

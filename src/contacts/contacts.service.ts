@@ -63,7 +63,7 @@ export class ContactsService {
   async findOne(id:string) {
     try {
       return await this.contactRepository.findOne({
-        where: { idContact: id },
+        where: { contactId: id },
       });
     } catch (error) {
       console.log(error);

@@ -67,7 +67,6 @@ export class CategoriesService {
             id: userId, // Se filtra por el id del usuario
           },
         },
-        relations: ['user'], // Esto incluye la relación para acceder a la entidad User
       });
       
     } catch (error) {

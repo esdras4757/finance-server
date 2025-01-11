@@ -18,7 +18,7 @@ export class Expense {
     })
     concept?: string;
 
-    @Column('text')
+    @Column('float',{ default: 0 })
     amount: number;
 
     @Column('text',{

@@ -9,6 +9,8 @@ import { Expense } from './expenses/entities/expense.entity';
 import { IncomeModule } from './income/income.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { CategoriesModule } from './categories/categories.module';
+import { DebtsModule } from './debts/debts.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -32,7 +34,9 @@ import { CategoriesModule } from './categories/categories.module';
     ExpensesModule,
     IncomeModule,
     ContactsModule,
-    CategoriesModule
+    CategoriesModule,
+    DebtsModule,
+    DashboardModule
   ],
 })
 export class AppModule {}
