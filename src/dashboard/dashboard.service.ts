@@ -36,8 +36,8 @@ export class DashboardService {
         const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
         const totalIncomes = incomes.reduce((acc, income) => acc + income.amount, 0);
 
-        const labelsExpenses = expenses.map(expense => dayjs(expense.spendAt).format('DD/MM/YYYY'));
-        const labelsIncomes = incomes.map(income => dayjs(income.spendAt).format('DD/MM/YYYY'));
+        const labelsExpenses = expenses.map(expense => dayjs(expense.spendAt).format('MM-DD-YYYY'));
+        const labelsIncomes = incomes.map(income => dayjs(income.spendAt).format('MM-DD-YYYY'));
         const amountExpenses = expenses.map(expense => expense.amount);
         const amountIncomes = incomes.map(income => income.amount);
 
@@ -54,7 +54,7 @@ export class DashboardService {
         return {
             totalExpenses,
             totalIncomes,
-            totalBalance: totalExpenses - totalIncomes,
+            totalBalance: totalIncomes - totalExpenses,
             ExpensesGraph,
             IncomesGraph,
             expenses,
