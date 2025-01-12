@@ -14,4 +14,8 @@ export class CreateExpenseDto {
 
     @IsString()
     userId: string;
+
+    @IsString()
+    @IsOptional()
+    creation_date?: string;
 }

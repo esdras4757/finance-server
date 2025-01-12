@@ -27,7 +27,7 @@ export class Income {
     category?: string;
 
     @Column()
-    spendAt: Date;
+    creation_date: Date;
 
     @Column()
     updated_at?: Date;
@@ -35,7 +35,7 @@ export class Income {
     @BeforeInsert()
     CreateSpendAt() {
         const date = new Date();
-        this.spendAt = date;
+        this.creation_date = date;
         this.updated_at = date;
     }
 

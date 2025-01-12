@@ -21,4 +21,8 @@ export class CreateDebtDto {
     @IsString()
     @IsEnum(["to-pay", "to-receive"])
     type: string;
+
+    @IsString()
+    @IsOptional()
+    creation_date?: string;
 }
