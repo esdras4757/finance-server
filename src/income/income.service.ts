@@ -11,7 +11,7 @@ import { Income } from './entities/income.entity';
 export class IncomeService {
   constructor(
     @InjectRepository(Income)
-    private readonly expenseRepository: Repository<Income>,
+    private readonly incomeRepository: Repository<Income>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
   ) {}
@@ -23,12 +23,12 @@ export class IncomeService {
         throw new NotFoundException('Usuario no encontrado');
       }
       delete user.password;
-      const income = this.expenseRepository.create({
+      const income = this.incomeRepository.create({
         ...createIncomeDto,
         user
       });
 
-      const result = this.expenseRepository.save(income);
+      const result = this.incomeRepository.save(income);
 
       if (result) {
         return {...createIncomeDto, ...user};
@@ -44,13 +44,30 @@ export class IncomeService {
     return `This action returns all expenses`;
   }
 
+  async findByUserId (userId: string) {
+    try {
+      return await this.incomeRepository.find({
+        where: {
+          user: {
+            id: userId, // Se filtra por el id del usuario
+          },
+        },
+      });
+      
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error.message)
+      
+    }
+  }
+
   findOne(id: string) {
     return `This action returns a #${id} income`;
   }
 
   update(id: string, updateIncomeDto: UpdateIncomeDto) {
     try {
-      const income = this.expenseRepository.update(id, updateIncomeDto);
+      const income = this.incomeRepository.update(id, updateIncomeDto);
       return income;
     }
     catch (error) {
@@ -62,7 +79,7 @@ export class IncomeService {
 
   remove(id: string) {
     try {
-      const income = this.expenseRepository.delete(id);
+      const income = this.incomeRepository.delete(id);
       return income;
     } catch (error) {
       console.log(error);

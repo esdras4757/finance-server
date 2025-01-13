@@ -21,6 +21,11 @@ export class IncomeController {
     return this.incomeService.findOne(id);
   }
 
+  @Get('byUserId/:userId')
+  findByUser(@Param('userId') userId: string) {
+    return this.incomeService.findByUserId(userId);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() UpdateIncomeDto: UpdateIncomeDto) {
     return this.incomeService.update(id, UpdateIncomeDto);
