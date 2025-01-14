@@ -16,6 +16,5 @@ export class CreateExpenseDto {
     userId: string;
 
     @IsString()
-    @IsOptional()
     creation_date?: string;
 }

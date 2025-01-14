@@ -36,7 +36,7 @@ export class DashboardService {
             select: ['incomeId', 'amount', 'creation_date', 'concept'],
             order: { creation_date: 'DESC' },
             take: 10,
-        });
+        })
     
         const debts = await this.dev.find({
             where: { user: { id: userId } },
@@ -70,12 +70,13 @@ export class DashboardService {
             })),
         ]
             .sort((a, b) => new Date(b.creation_date).getTime() - new Date(a.creation_date).getTime())
-            .slice(0, 8);
-    
+            .slice(0, 8)
+        const all = [...expenses, ...incomes, ...debts].sort((b, a) => new Date(b.creation_date).getTime() - new Date(a.creation_date).getTime());
         // Calcula los totales
         const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
         const totalIncomes = incomes.reduce((acc, income) => acc + income.amount, 0);
-    
+        const totalDebts = debts.reduce((acc, debt) => acc + debt.amount, 0);
+        
         // Prepara los datos para las gráficas
         const labelsExpenses = expenses.map(expense => 
             expense.creation_date ? dayjs(expense.creation_date).format('MM-DD-YYYY') : 'N/A'
@@ -86,6 +87,16 @@ export class DashboardService {
             income.creation_date ? dayjs(income.creation_date).format('MM-DD-YYYY') : 'N/A'
         );
         const amountIncomes = incomes.map(income => income.amount);
+
+        const labelsTotalBalance = all.map(movement =>
+            movement.creation_date ? dayjs(movement.creation_date).format('MM-DD-YYYY') : 'N/A'
+        );
+
+        const amountTotalBalance = all.map(movement => {
+            if (movement.hasOwnProperty('expenseId')) return -movement.amount
+            return movement.amount
+        }
+        );
     
         const ExpensesGraph = {
             labels: labelsExpenses,
@@ -96,14 +107,21 @@ export class DashboardService {
             labels: labelsIncomes,
             amounts: amountIncomes,
         };
+
+        const TotalBalanceGraph = {
+            labels: labelsTotalBalance,
+            amounts: amountTotalBalance,
+        };
     
         // Devuelve el resultado final
         return {
             totalExpenses,
             totalIncomes,
             totalBalance: totalIncomes - totalExpenses,
+            totalDebts,
             ExpensesGraph,
             IncomesGraph,
+            TotalBalanceGraph,
             recentMovements,
             // expenses,
             // incomes,

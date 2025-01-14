@@ -35,7 +35,6 @@ export class Income {
     @BeforeInsert()
     CreateSpendAt() {
         const date = new Date();
-        this.creation_date = date;
         this.updated_at = date;
     }
 

@@ -49,7 +49,7 @@ export class IncomeService {
       return await this.incomeRepository.find({
         where: {
           user: {
-            id: userId, // Se filtra por el id del usuario
+            id: userId,
           },
         },
       });

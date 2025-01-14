@@ -39,6 +39,21 @@ export class ExpensesService {
       throw new InternalServerErrorException(error.message);
     }
   }
+  
+  async findByUserId (userId: string) {
+    try {
+      return await this.expenseRepository.find({
+        where: {
+          user: {
+            id: userId, // Se filtra por el id del usuario
+          },
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error.message)
+    }
+  }
 
   findAll() {
     return `This action returns all expenses`;

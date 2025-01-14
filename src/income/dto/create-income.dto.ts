@@ -16,6 +16,5 @@ export class CreateIncomeDto {
     userId: string;
 
     @IsString()
-    @IsOptional()
     creation_date?: string;
 }

@@ -16,7 +16,9 @@ export class Debt {
     @Column('float')
     amount: number;
 
-    @Column('timestamp')
+    @Column('timestamp',
+    { default: () => 'CURRENT_TIMESTAMP' }
+    )
     creation_date: Date;
 
     @Column('timestamp')
@@ -35,8 +37,13 @@ export class Debt {
     @BeforeInsert()
     addCreationDate() {
         const date = new Date();
-        this.creation_date = date;
         this.updated_at = date;
+        if (this.type === 'to-receive') {
+            this.amount = -this.amount;
+        }
+        else{
+            this.amount = this.amount;
+        }
     }
 
     @BeforeUpdate()
@@ -62,4 +69,5 @@ export class Debt {
         {nullable: true }
     )
     category: Category;
+
 }

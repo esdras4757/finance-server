@@ -23,6 +23,5 @@ export class CreateDebtDto {
     type: string;
 
     @IsString()
-    @IsOptional()
     creation_date?: string;
 }

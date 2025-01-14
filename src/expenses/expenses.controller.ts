@@ -31,4 +31,10 @@ export class ExpensesController {
   remove(@Param('id') id: string) {
     return this.expensesService.remove(id);
   }
+
+  @Get('byUserId/:userId')
+  findByUser(@Param('userId') userId: string) {
+    console.log(userId);
+    return this.expensesService.findByUserId(userId);
+  }
 }
