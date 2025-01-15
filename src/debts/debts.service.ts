@@ -64,6 +64,25 @@ export class DebtsService {
       throw new InternalServerErrorException(error.message);
     }
   }
+
+  async findByUserId (userId: string, type: string) {
+    try {
+      return await this.debtRepository.find({
+        where: {
+          user: {
+            id: userId,
+          },
+          type: type,
+        },
+        relations: ['category', 'contact'],
+      });
+      
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error.message)
+      
+    }
+  }
   
 
   findAll() {
@@ -78,7 +97,15 @@ export class DebtsService {
     return `This action updates a #${id} debt`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} debt`;
-  }
+  async remove(id: string) {
+    try {
+      const result = await this.debtRepository.delete(id);
+      return true;
+    }
+    catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error.message);  
+    }
+}
+
 }

@@ -117,7 +117,7 @@ export class DashboardService {
         return {
             totalExpenses,
             totalIncomes,
-            totalBalance: totalIncomes - totalExpenses,
+            totalBalance: (totalIncomes - totalExpenses) + totalDebts ,
             totalDebts,
             ExpensesGraph,
             IncomesGraph,

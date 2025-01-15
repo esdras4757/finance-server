@@ -23,8 +23,8 @@ export class ContactsService {
 
       const existingContact = await this.contactRepository.findOne({
         where: {
-          email: createContactDto.email,
-          phone: createContactDto.phone,
+          name: createContactDto.name,
+          lastName: createContactDto.lastName,
         },
       });
       

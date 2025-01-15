@@ -39,10 +39,10 @@ export class Debt {
         const date = new Date();
         this.updated_at = date;
         if (this.type === 'to-receive') {
-            this.amount = -this.amount;
+            this.amount = this.amount;
         }
         else{
-            this.amount = this.amount;
+            this.amount = -this.amount;
         }
     }
 

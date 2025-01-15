@@ -13,6 +13,11 @@ export class DebtsController {
     return this.debtsService.create(createDebtDto);
   }
 
+  @Get('byUserId/:userId/type/:type')
+  findByUser(@Param('userId') userId: string , @Param('type') type: string) {
+    return this.debtsService.findByUserId(userId, type);
+  }
+
   @Get()
   findAll() {
     return this.debtsService.findAll();
@@ -30,6 +35,6 @@ export class DebtsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.debtsService.remove(+id);
+    return this.debtsService.remove(id);
   }
 }
