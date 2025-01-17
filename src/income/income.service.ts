@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Income } from './entities/income.entity';
+import * as dayjs from 'dayjs'; 
 
 @Injectable()
 export class IncomeService {
@@ -46,13 +47,33 @@ export class IncomeService {
 
   async findByUserId (userId: string) {
     try {
-      return await this.incomeRepository.find({
+      const result = await this.incomeRepository.find({
         where: {
           user: {
             id: userId,
           },
         },
+        order: { creation_date: 'DESC' }
       });
+
+      const labelsExpenses = result.map(expense => 
+        expense.creation_date ? dayjs(expense.creation_date).format('MM-DD-YYYY') : 'N/A'
+    );
+    const amountExpenses = result.map(expense => expense.amount);
+
+    const totalIncomes = amountExpenses.reduce((acc, amount) => acc + amount, 0);
+
+    const IncomesGraph = {
+      labels: labelsExpenses,
+      amounts: amountExpenses,
+  };
+
+
+    return {
+      result,
+      IncomesGraph,
+      totalIncomes
+    }
       
     } catch (error) {
       console.log(error);
