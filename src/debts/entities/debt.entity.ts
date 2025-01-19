@@ -32,7 +32,9 @@ export class Debt {
     })
     isPaid: boolean;
 
-    @Column('float')
+    @Column('float', {
+        nullable: true
+    })
     remaining_amount: number;
     
     @BeforeInsert()
