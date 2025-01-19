@@ -115,6 +115,42 @@ export class DebtsService {
     }
   }
 
+  async incrementDebt(id: string, updateDebtDto: UpdateDebtDto) {
+    try {
+      const debt = await this.debtRepository.findOne({
+        where: { debtId: id }
+      });
+      if (!debt) {
+        throw new NotFoundException('Deuda no encontrada');
+      }
+
+      const updatedDebt = this.debtRepository.merge(debt, updateDebtDto);
+
+      return this.debtRepository.save(updatedDebt);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error.message);  
+    }
+  }
+
+ async decrementDebt(id: string, updateDebtDto: UpdateDebtDto) {
+    try {
+      const debt = await this.debtRepository.findOne({
+        where: { debtId: id }
+      });
+      if (!debt) {
+        throw new NotFoundException('Deuda no encontrada');
+      }
+
+      const updatedDebt = this.debtRepository.merge(debt, updateDebtDto);
+
+      return this.debtRepository.save(updatedDebt);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error.message);
+    } 
+  }
+
   findAll() {
     return `This action returns all debts`;
   }

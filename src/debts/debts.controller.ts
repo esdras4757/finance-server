@@ -17,6 +17,18 @@ export class DebtsController {
   findByUser(@Param('userId') userId: string , @Param('type') type: string) {
     return this.debtsService.findByUserId(userId, type);
   }
+  
+  @Patch('increment/:id')
+  incrementDebt(@Param('id') id: string, @Body() updateDebtDto: UpdateDebtDto) {
+    return this.debtsService.incrementDebt(id, updateDebtDto);
+  }
+
+  @Patch('decrement/:id')
+  decrementDebt(@Param('id') id: string, @Body() updateDebtDto: UpdateDebtDto) {
+    return this.debtsService.decrementDebt(id, updateDebtDto);
+  }
+
+
 
   @Get()
   findAll() {

@@ -32,10 +32,12 @@ export class Debt {
     })
     isPaid: boolean;
 
-
+    @Column('float')
+    remaining_amount: number;
     
     @BeforeInsert()
     addCreationDate() {
+        this.remaining_amount = this.amount;
         const date = new Date();
         this.updated_at = date;
         if (this.type === 'to-receive') {
