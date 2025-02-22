@@ -19,6 +19,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
      { 
       type	: 'postgres',
       url: process.env.DATABASE_URL,
+      entities: [User, Expense],
+      autoLoadEntities: true,
+      synchronize: true,
     }
     ),
     UsersModule,
