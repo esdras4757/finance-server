@@ -18,12 +18,12 @@ import { DashboardModule } from './dashboard/dashboard.module';
     TypeOrmModule.forRoot(
      { 
       type	: 'postgres',
-      host  : 'ep-jolly-breeze-a8ojzh8h-pooler.eastus2.azure.neon.tech',
-      username: process.env.POSTGRESS_USER,
-      password: process.env.POSTGRESS_PASSWORD,
-      database: process.env.POSTGRESS_DB,
+      host  : process.env.DATABASE_URL,
+      username: process.env.PGUSER,
+      password: process.env.PGPASSWORD,
+      database: process.env.PGDATABASE,
       entities: [User, Expense],
-      port: 5432,
+      port: +process.env.PGPORT,
       ssl: true,
       autoLoadEntities: true,
       synchronize: true,
