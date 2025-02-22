@@ -18,15 +18,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     TypeOrmModule.forRoot(
      { 
       type	: 'postgres',
-      host  : process.env.DATABASE_URL,
-      username: process.env.PGUSER,
-      password: process.env.PGPASSWORD,
-      database: process.env.PGDATABASE,
-      entities: [User, Expense],
-      port: +process.env.PGPORT,
-      ssl: true,
-      autoLoadEntities: true,
-      synchronize: true,
+      url: process.env.DATABASE_URL,
     }
     ),
     UsersModule,
