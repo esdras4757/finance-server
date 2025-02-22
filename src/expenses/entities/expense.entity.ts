@@ -9,7 +9,8 @@ export class Expense {
 
     @ManyToOne(
         () => User,
-        (user) => user.expenses
+        (user) => user.expenses,
+        { onDelete: 'CASCADE', onUpdate: 'CASCADE' }
     )
     user: User;
 

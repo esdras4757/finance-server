@@ -18,7 +18,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     TypeOrmModule.forRoot(
      { 
       type	: 'postgres',
-      host  : 'dpg-ctupo1dumphs73a04720-a.oregon-postgres.render.com',
+      host  : 'ep-jolly-breeze-a8ojzh8h-pooler.eastus2.azure.neon.tech',
       username: process.env.POSTGRESS_USER,
       password: process.env.POSTGRESS_PASSWORD,
       database: process.env.POSTGRESS_DB,
