@@ -10,7 +10,9 @@ export class Debt {
     @PrimaryGeneratedColumn('uuid')
     debtId: string;
 
-    @Column('text')
+    @Column('text', {
+        nullable: true
+    })
     concept: string;
 
     @Column('float')
