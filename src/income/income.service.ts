@@ -7,6 +7,7 @@ import { User } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Income } from './entities/income.entity';
 import * as dayjs from 'dayjs'; 
+import { Category } from 'src/categories/entities/category.entity';
 
 @Injectable()
 export class IncomeService {
@@ -14,25 +15,36 @@ export class IncomeService {
     @InjectRepository(Income)
     private readonly incomeRepository: Repository<Income>,
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
   async create(createIncomeDto: CreateIncomeDto) {
     try {
       const user= await this.userRepository.findOneBy({id: createIncomeDto.userId});
+
+      const category = createIncomeDto.categoryId
+        ? await this.categoryRepository.findOneBy({
+            categoryId: createIncomeDto.categoryId,
+          })
+        : null;
+
       if(!user){
         throw new NotFoundException('Usuario no encontrado');
       }
       delete user.password;
       const income = this.incomeRepository.create({
         ...createIncomeDto,
+        category,
         user
       });
+
 
       const result = this.incomeRepository.save(income);
 
       if (result) {
-        return {...createIncomeDto, ...user};
+        return {...createIncomeDto, ...user, category};
       }
       
     } catch (error) {
@@ -53,6 +65,7 @@ export class IncomeService {
             id: userId,
           },
         },
+        relations: ['category'],
         order: { creation_date: 'DESC' }
       });
 

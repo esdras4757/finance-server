@@ -83,19 +83,20 @@ export class DebtsService {
           },
         },
         relations: ['category', 'contact'],
-        order: { creation_date: 'DESC' }
+        order: { isPaid: 'ASC', creation_date: 'DESC' },
       });
 
-      const resultFiltered = result.filter((debt) => debt.type === type);
+      const resultFilteredNotPaid = result.filter((debt) => debt.type === type && debt.isPaid === false);
+      const resultFilteredPaid = result.filter((debt) => debt.type === type);
 
-      console.log('Debts filtered:', resultFiltered);
+      console.log('Debts filtered:', resultFilteredNotPaid);
 
-      const labelsDebts = resultFiltered.map((expense) =>
+      const labelsDebts = resultFilteredNotPaid.map((expense) =>
         expense.creation_date
           ? dayjs(expense.creation_date).format('MM-DD-YYYY')
           : 'N/A',
       );
-      const amountDebts = resultFiltered.map((expense) => expense.amount);
+      const amountDebts = resultFilteredNotPaid.map((expense) => expense.amount);
 
       const DebtsGraph = {
         labels: labelsDebts,
@@ -105,7 +106,7 @@ export class DebtsService {
       const totalDebts = amountDebts.reduce((acc, amount) => acc + amount, 0);
 
       return {
-        result:resultFiltered,
+        result:resultFilteredPaid,
         DebtsGraph,
         totalDebts
       };
@@ -159,8 +160,22 @@ export class DebtsService {
     return `This action returns a #${id} debt`;
   }
 
-  update(id: number, updateDebtDto: UpdateDebtDto) {
-    return `This action updates a #${id} debt`;
+ async update(id: string, updateDebtDto: UpdateDebtDto) {
+    try {
+      const debt = await this.debtRepository.findOne({
+        where: { debtId: id }
+      });
+      if (!debt) {
+        throw new NotFoundException('Deuda no encontrada');
+      }
+
+      const updatedDebt = this.debtRepository.merge(debt, updateDebtDto);
+
+      return this.debtRepository.save(updatedDebt);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async remove(id: string) {

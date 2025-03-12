@@ -1,3 +1,4 @@
+import { Category } from "src/categories/entities/category.entity";
 import { User } from "src/users/entities/user.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, PrimaryGeneratedColumn, } from "typeorm";
 
@@ -21,10 +22,12 @@ export class Income {
     @Column('float',{ default: 0 })
     amount: number;
 
-    @Column('text',{
-        nullable: true
-    })
-    category?: string;
+    @ManyToOne(
+        () => Category,
+        (category) => category.expense,
+        {nullable: true }
+    )
+    category: Category;
 
     @Column()
     creation_date: Date;

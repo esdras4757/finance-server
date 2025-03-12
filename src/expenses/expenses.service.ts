@@ -6,6 +6,7 @@ import { Expense } from './entities/expense.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import * as dayjs from 'dayjs'; 
+import { Category } from 'src/categories/entities/category.entity';
 
 @Injectable()
 export class ExpensesService {
@@ -14,7 +15,9 @@ export class ExpensesService {
     @InjectRepository(Expense)
     private readonly expenseRepository: Repository<Expense>,
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>
   ) {}
 
   async create(createExpenseDto: CreateExpenseDto) {
@@ -23,16 +26,23 @@ export class ExpensesService {
       if(!user){
         throw new NotFoundException('Usuario no encontrado');
       }
+      const category = createExpenseDto.categoryId
+      ? await this.categoryRepository.findOneBy({
+          categoryId: createExpenseDto.categoryId,
+        })
+      : null;
+      
       delete user.password;
       const expense = this.expenseRepository.create({
         ...createExpenseDto,
+        category,
         user
       });
 
       const result = this.expenseRepository.save(expense);
 
       if (result) {
-        return {...createExpenseDto, ...user};
+        return {...createExpenseDto, ...user, category};
       }
       
     } catch (error) {
@@ -49,6 +59,7 @@ export class ExpensesService {
             id: userId, // Se filtra por el id del usuario
           },
         },
+        relations: ['category'],
         order: { creation_date: 'DESC' }
       });
 

@@ -1,4 +1,4 @@
-import { IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateDebtDto {
     @IsString()
@@ -24,4 +24,7 @@ export class CreateDebtDto {
 
     @IsString()
     creation_date?: string;
+
+    @IsBoolean()
+    isPaid?: boolean;
 }

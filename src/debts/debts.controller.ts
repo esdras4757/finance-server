@@ -42,7 +42,7 @@ export class DebtsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDebtDto: UpdateDebtDto) {
-    return this.debtsService.update(+id, updateDebtDto);
+    return this.debtsService.update(id, updateDebtDto);
   }
 
   @Delete(':id')
