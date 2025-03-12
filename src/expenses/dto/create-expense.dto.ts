@@ -10,7 +10,7 @@ export class CreateExpenseDto {
 
     @IsString()
     @IsOptional()
-    category?: string;
+    categoryId?: string;
 
     @IsString()
     userId: string;

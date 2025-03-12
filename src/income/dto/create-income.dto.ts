@@ -10,7 +10,7 @@ export class CreateIncomeDto {
 
     @IsString()
     @IsOptional()
-    category?: string;
+    categoryId?: string;
 
     @IsString()
     userId: string;
